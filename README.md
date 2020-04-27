@@ -29,3 +29,4 @@ docker build -t cockroach-centos-docker:0.1 .
 ```
 
 ### 5. DockerHub link
+https://hub.docker.com/r/ymxdgyx/cockroach-centos-docker
