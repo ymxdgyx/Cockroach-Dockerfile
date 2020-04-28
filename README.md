@@ -8,6 +8,16 @@ make build
 sudo make install
 ```
 
+```
+mkdir ~/cockroachdb
+export GOPATH=~/cockroachdb/
+mkdir -p $(go env GOPATH)/src/github.com/cockroachdb
+cd $(go env GOPATH)/src/github.com/cockroachdb
+git clone git@github.com:cockroachdb/cockroach.git   
+cd cockroach
+make build
+```
+
 ### 2. Build from Source
 https://www.cockroachlabs.com/docs/stable/install-cockroachdb-linux.html#build-from-source
 
