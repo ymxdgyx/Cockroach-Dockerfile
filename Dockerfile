@@ -5,7 +5,7 @@ ARG user=${user:-drdb}
 # Cleanup yum
 RUN yum clean all
 
-RUN yum install -y sudo net-tools wget openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
+RUN yum install -y sudo net-tools wget git which dstat openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
 
 # Generate ssh host keys
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
