@@ -28,12 +28,7 @@ http://doc.cockroachchina.baidu.com/#quick-start/start-a-local-cluster/from-bina
 cockroach start --insecure --host=localhost
 cockroach sql --insecure --port=26258
 ```
-### 4. Build image
-#### 4.1 Build image software
-1. cmake-3.11.2.tar.gz  
-2. go1.11.2.linux-amd64.tar.gz  
-
-#### 4.2 Build command
+### 4. Build image  
 ```
 docker build -t cockroach-centos-docker:0.1 .
 ```
