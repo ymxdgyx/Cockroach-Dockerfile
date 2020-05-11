@@ -17,6 +17,11 @@ git clone git@github.com:cockroachdb/cockroach.git
 cd cockroach
 make build
 ```
+#### NOTE: make building on ubuntu20.04 need to remove Werror option
+```
+src/github.com/cockroachdb/cockroach/c-deps/libroach/CMakeLists.txt +84 +172
+src/github.com/cockroachdb/cockroach/c-deps/rocksdb/CMakeLists.txt +251
+```
 
 ### 2. Build from Source
 https://www.cockroachlabs.com/docs/stable/install-cockroachdb-linux.html#build-from-source
