@@ -1,0 +1,94 @@
+ARG osver=20.04
+FROM ubuntu:${osver}
+ARG user=${user:-drdb}
+
+COPY aptsource20 /etc/apt/sources.list
+# Cleanup yum
+RUN apt update
+# ubuntu16.04 RUN apt install -y openssh-service
+
+# tzdata
+RUN export DEBIAN_FRONTEND=noninteractive && apt install -y openssh-server wget git vim sudo g++ gcc make autoconf byacc curl && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
+
+# Generate ssh host keys
+RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa -y
+RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -y
+RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519 -y
+
+# Add user
+RUN useradd -m -U -u 1000 ${user}
+RUN echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER ${user}
+
+# Generate user ssh keys
+RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
+RUN cp -a ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+RUN echo "NoHostAuthenticationForLocalhost=yes" >>~/.ssh/config
+
+# copy cmake-3.11.2.tar.gz 
+# copy go1.11.2.linux-amd64.tar.gz
+RUN mkdir -p /home/${user}/software
+WORKDIR /home/${user}/software
+#COPY --chown=${user}:${user} software/* ./
+RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz
+RUN wget https://cmake.org/files/v3.11/cmake-3.11.2.tar.gz
+
+USER root
+
+# install go
+RUN tar -C /usr/local -zxvf go1.14.2.linux-amd64.tar.gz
+RUN echo "export GOROOT=/usr/local/go" >> /etc/profile
+RUN echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
+
+RUN cp /usr/local/go/bin/* /usr/local/bin
+#RUN cp /usr/local/go/bin/gofmt /usr/bin
+#RUN cp /usr/local/go/bin/godoc /usr/bin
+
+# install cmake
+RUN tar -zxvf cmake-3.11.2.tar.gz
+WORKDIR /home/${user}/software/cmake-3.11.2
+RUN ./bootstrap --prefix=/usr
+RUN make
+RUN make install
+
+# access github 
+RUN echo "192.30.253.112 github.com" >> /etc/hosts
+
+# node.js
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt install -y nodejs
+
+# Yarn
+WORKDIR /home/${user}/software
+RUN wget https://github.com/yarnpkg/yarn/releases/download/v1.7.0/yarn_1.7.0_all.deb
+RUN dpkg -i yarn_1.7.0_all.deb
+
+# PRIVATE
+WORKDIR /home/${user}/software
+
+# 1 Install tmux
+# 1.1 Install libevent 2.1.8
+RUN wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
+RUN tar xzvf libevent-2.1.8-stable.tar.gz
+RUN cd libevent-2.1.8-stable && ./configure && make -j8 && make install
+
+# 1.2 Install ncurses and automake
+RUN apt install libncurses5-dev automake -y
+
+# 1.3 Install tmux
+RUN git clone https://github.com/tmux/tmux.git
+RUN apt install pkg-config -y
+RUN cd tmux &&  ./autogen.sh && ./configure && make -j8 && make install
+RUN cd tmux && cp tmux /usr/bin/tmux -f && cp tmux /usr/local/bin/tmux -f && cp /usr/local/lib/libevent-2.1.so.6 /lib64/libevent-2.1.so.6
+
+# PRIVATE
+
+# Cleanup yum
+RUN apt clean all
+
+WORKDIR /home/${user}
+# Fix sshd issues
+RUN touch /etc/sudo.conf && echo "Set disable_coredump false" >> /etc/sudo.conf && mkdir /run/sshd
+USER ${user}
+ENTRYPOINT sudo /usr/sbin/sshd && /bin/bash
