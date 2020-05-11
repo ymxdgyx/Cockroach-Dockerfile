@@ -1,4 +1,4 @@
-# Cockroach-Centos-Docker
+# Cockroach-Docker
 
 ### 1. Install cockroachDB
 ```
@@ -26,7 +26,7 @@ http://doc.cockroachchina.baidu.com/#quick-start/start-a-local-cluster/from-bina
 
 ```
 cockroach start --insecure --host=localhost
-cockroach sql --insecure --port=26258
+cockroach sql --insecure --port=26257
 ```
 ### 4. Build image  
 ```
