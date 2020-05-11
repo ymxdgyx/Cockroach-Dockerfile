@@ -28,13 +28,13 @@ RUN echo "NoHostAuthenticationForLocalhost=yes" >>~/.ssh/config
 RUN mkdir -p /home/${user}/software
 WORKDIR /home/${user}/software
 #COPY --chown=${user}:${user} software/* ./
-RUN wget https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
+RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz
 RUN wget https://cmake.org/files/v3.11/cmake-3.11.2.tar.gz
 
 USER root
 
 # install go
-RUN tar -C /usr/local -zxvf go1.11.2.linux-amd64.tar.gz
+RUN tar -C /usr/local -zxvf go1.14.2.linux-amd64.tar.gz
 RUN echo "export GOROOT=/usr/local/go" >> /etc/profile
 RUN echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
 
