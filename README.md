@@ -40,3 +40,25 @@ docker build -t cockroach-centos-docker:0.1 .
 
 ### 5. DockerHub link
 https://hub.docker.com/r/ymxdgyx/cockroach-centos-docker
+
+### 6. VScode debug cockroachDB
+```
+launch.json:
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "/home/drdb/cockroachdb/src/github.com/cockroachdb/cockroach/pkg/cmd/drdb/",
+            "args": ["start","--insecure","--host=localhost"],
+            // "showLog": true
+        }
+    ]
+}
+```
