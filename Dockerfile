@@ -5,7 +5,11 @@ ARG user=${user:-drdb}
 # Cleanup yum
 RUN yum clean all
 
-RUN yum install -y sudo net-tools wget git which dstat openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
+RUN yum install wget -y
+RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+RUN yum makecache
+
+RUN yum install -y sudo net-tools git which dstat openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
 
 # Generate ssh host keys
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
@@ -38,9 +42,7 @@ RUN tar -C /usr/local -zxvf go1.14.2.linux-amd64.tar.gz
 RUN echo "export GOROOT=/usr/local/go" >> /etc/profile
 RUN echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
 
-RUN cp /usr/local/go/bin/go /usr/bin
-RUN cp /usr/local/go/bin/gofmt /usr/bin
-RUN cp /usr/local/go/bin/godoc /usr/bin
+RUN cp /usr/local/go/bin/* /usr/bin
 
 # install cmake
 RUN tar -zxvf cmake-3.11.2.tar.gz
@@ -53,7 +55,7 @@ RUN sudo gmake install
 RUN sudo echo "192.30.253.112 github.com" >> /etc/hosts
 
 # node.js
-RUN curl --silent --location https://rpm.nodesource.com/setup_10.x | bash -
+RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
 RUN yum install -y nodejs
 
 # Yarn
