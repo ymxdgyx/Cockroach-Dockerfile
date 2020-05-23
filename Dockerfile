@@ -55,11 +55,11 @@ RUN sudo gmake install
 RUN sudo echo "192.30.253.112 github.com" >> /etc/hosts
 
 # node.js
-RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
 RUN yum install -y nodejs
 
 # Yarn
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
 RUN yum -y install yarn
 
 # PRIVATE
@@ -75,9 +75,11 @@ RUN cd libevent-2.1.8-stable && ./configure && make -j8 && make install
 RUN yum install ncurses automake -y
 
 # 1.3 Install tmux
-RUN git clone https://github.com/tmux/tmux.git
-RUN cd tmux &&  ./autogen.sh && ./configure && make -j8 && make install
-RUN cd tmux && cp tmux /usr/bin/tmux -f && cp tmux /usr/local/bin/tmux -f && cp /usr/local/lib/libevent-2.1.so.6 /lib64/libevent-2.1.so.6
+#RUN git clone https://github.com/tmux/tmux.git
+RUN wget https://github.com/tmux/tmux/releases/download/3.1b/tmux-3.1b.tar.gz
+RUN tar xzvf tmux-3.1b.tar.gz
+RUN cd tmux-3.1b && ./configure && make -j8 && make install
+RUN cd tmux-3.1b && cp tmux /usr/bin/tmux -f && cp tmux /usr/local/bin/tmux -f && cp /usr/local/lib/libevent-2.1.so.6 /lib64/libevent-2.1.so.6
 
 # PRIVATE
 
