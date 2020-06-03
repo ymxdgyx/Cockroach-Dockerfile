@@ -1,6 +1,6 @@
 ARG osver=7
 FROM centos:${osver}
-ARG user=${user:-drdb}
+ARG user=${user:-crdb}
 
 # Cleanup yum
 RUN yum clean all
@@ -41,6 +41,7 @@ USER root
 RUN tar -C /usr/local -zxvf go1.14.2.linux-amd64.tar.gz
 RUN echo "export GOROOT=/usr/local/go" >> /etc/profile
 RUN echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
+RUN echo "export GOPATH=/home/${user}/cockroachdb" >> /home/${user}/.bashrc
 
 RUN cp /usr/local/go/bin/* /usr/bin
 
