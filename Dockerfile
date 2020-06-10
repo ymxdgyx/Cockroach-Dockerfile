@@ -9,7 +9,8 @@ RUN yum install wget -y
 RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 RUN yum makecache
 
-RUN yum install -y sudo net-tools git which dstat openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
+RUN yum install -y sudo net-tools git which dstat vim openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
+RUN echo "alias vi=vim" >> /home/${user}/.bashrc
 
 # Generate ssh host keys
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
@@ -19,6 +20,8 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 # Add user
 RUN useradd -m -U -u 1000 ${user}
 RUN echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN echo "alias vi=vim" >> /home/${user}/.bashrc
 
 USER ${user}
 
