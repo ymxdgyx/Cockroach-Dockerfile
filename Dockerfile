@@ -56,10 +56,11 @@ RUN gmake
 RUN sudo gmake install
 
 # access github 
-RUN sudo echo "192.30.253.112 github.com" >> /etc/hosts
+#RUN sudo echo "192.30.253.112 github.com" >> /etc/hosts
 
 # node.js
-RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
+#RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
+RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
 RUN yum install -y nodejs
 
 # Yarn
