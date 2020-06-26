@@ -16,6 +16,10 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
 RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
 RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
+# change timezone to Asia/Shanghai
+RUN mv /etc/localtime /etc/localtime.bak
+RUN ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 # Add user
 RUN useradd -m -U -u 1000 ${user}
 RUN echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
