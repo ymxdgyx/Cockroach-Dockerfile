@@ -49,8 +49,6 @@ RUN tar -C /usr/local -zxvf go1.14.2.linux-amd64.tar.gz
 RUN echo "export GOROOT=/usr/local/go" >> /etc/profile
 RUN echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
 RUN echo "export GOPATH=/home/${user}/cockroachdb" >> /home/${user}/.bashrc
-# go proxy
-RUN /usr/local/go/bin/go env -w GOPROXY=https://goproxy.cn,direct
 
 RUN cp /usr/local/go/bin/* /usr/bin
 
@@ -99,4 +97,8 @@ RUN yum clean all
 
 WORKDIR /home/${user}
 USER ${user}
+
+# Set go GOPROXY env
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+
 ENTRYPOINT sudo /usr/sbin/sshd && /bin/bash
