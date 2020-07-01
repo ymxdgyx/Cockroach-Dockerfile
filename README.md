@@ -2,8 +2,8 @@
 
 ### 1. Install cockroachDB
 ```
-wget -qO- https://binaries.cockroachdb.com/cockroach-v19.1.1.src.tgz | tar xvz
-cd cockroach-v19.1.1
+wget -qO- https://binaries.cockroachdb.com/cockroach-v19.1.0.src.tgz | tar xvz
+cd cockroach-v19.1.0
 make build
 sudo make install
 ```
@@ -21,6 +21,11 @@ make build
 ```
 src/github.com/cockroachdb/cockroach/c-deps/libroach/CMakeLists.txt +84 +172
 src/github.com/cockroachdb/cockroach/c-deps/rocksdb/CMakeLists.txt +251
+```
+
+#### NOTE: make test
+```
+go version : 1.12.17
 ```
 
 ### 2. Build from Source
