@@ -40,7 +40,7 @@ cockroach sql --insecure --port=26257
 ```
 ### 4. Build image  
 ```
-docker build -t cockroach-centos-docker:0.1 .
+docker build -t cockroach-centos-docker:0.1 -t cockroach-centos-docker:latest --build-arg osver=7 .
 ```
 
 ### 5. DockerHub link
