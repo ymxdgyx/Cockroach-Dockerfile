@@ -1,7 +1,7 @@
 ARG osver=7
 FROM centos:${osver}
 
-ARG osver=7
+ARG osver
 ARG user=${user:-crdb}
 ARG gover=1.14.2
 ARG cmakebigver=3.11
