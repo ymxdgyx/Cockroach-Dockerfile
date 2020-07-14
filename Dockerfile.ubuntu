@@ -2,6 +2,25 @@ ARG osver=20.04
 FROM ubuntu:${osver}
 ARG user=${user:-drdb}
 
+---------------------------------
+ubuntu 20.04
+
+sudo apt update
+sudo apt install build-essential
+sudo apt-get install manpages-dev
+
+sudo apt install gcc-7 g++-7
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gcov gcov /usr/bin/gcov-7
+sudo update-alternatives --config gcc
+
+# install ncurses
+
+sudo apt-get install libncurses5-dev
+
+# cmake 3.16.3
+sudo apt install cmake
+---------------------------------
+
 COPY aptsource20 /etc/apt/sources.list
 # Cleanup yum
 RUN apt update
