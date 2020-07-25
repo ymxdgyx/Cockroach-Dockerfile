@@ -8,12 +8,8 @@ ARG cmakebigver=3.11
 ARG cmakever=3.11.2
 ARG tmuxver=3.1b
 
-# Cleanup yum
-RUN yum clean all
-
 RUN yum install wget -y
-RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${osver}.repo
-RUN yum makecache
+RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${osver}.repo && yum makecache
 
 RUN yum install -y sudo net-tools git which dstat vim openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
 
@@ -29,8 +25,6 @@ RUN ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 # Add user
 RUN useradd -m -U -u 1000 ${user}
 RUN echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-RUN echo "alias vi=vim" >> /home/${user}/.bashrc
-
 RUN echo "alias vi=vim" >> /home/${user}/.bashrc
 
 USER ${user}
@@ -52,9 +46,7 @@ USER root
 
 # install go
 RUN tar -C /usr/local -zxvf go${gover}.linux-amd64.tar.gz
-RUN echo "export GOROOT=/usr/local/go" >> /etc/profile
-RUN echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile
-RUN echo "export GOPATH=/home/${user}/cockroachdb" >> /home/${user}/.bashrc
+RUN echo -e "export GOROOT=/usr/local/go\nexport PATH=$PATH:$GOROOT/bin" >> /etc/profile && echo "export GOPATH=/home/${user}/cockroachdb" >> /home/${user}/.bashrc
 
 RUN cp /usr/local/go/bin/* /usr/bin
 
@@ -70,12 +62,10 @@ RUN sudo gmake install
 
 # node.js
 #RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
-RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
-RUN yum install -y nodejs
+RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - && yum install -y nodejs
 
 # Yarn
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-RUN yum -y install yarn
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && yum -y install yarn
 
 # PRIVATE
 WORKDIR /home/${user}/software
