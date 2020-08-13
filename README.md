@@ -17,13 +17,18 @@ git clone git@github.com:cockroachdb/cockroach.git
 cd cockroach
 make build
 ```
+#### NOTE: Go1.14+
+```
+make build IGNORE_GOVERS=1
+```
+
 #### NOTE: make building on ubuntu20.04 need to remove Werror option
 ```
 src/github.com/cockroachdb/cockroach/c-deps/libroach/CMakeLists.txt +84 +172
 src/github.com/cockroachdb/cockroach/c-deps/rocksdb/CMakeLists.txt +251
 ```
 
-#### NOTE: make test
+#### NOTE: make test for v19.1.0
 ```
 go version : 1.12.17
 ```
