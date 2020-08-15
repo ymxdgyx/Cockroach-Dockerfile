@@ -28,7 +28,12 @@ src/github.com/cockroachdb/cockroach/c-deps/libroach/CMakeLists.txt +84 +172
 src/github.com/cockroachdb/cockroach/c-deps/rocksdb/CMakeLists.txt +251
 ```
 
-#### NOTE: make test for v19.1.0
+#### NOTE: make test lint for v20.1.0
+```
+go version : 1.13.5
+```
+
+#### NOTE: make test lint for v19.1.0
 ```
 go version : 1.12.17
 ```
