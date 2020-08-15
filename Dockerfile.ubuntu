@@ -17,8 +17,17 @@ sudo update-alternatives --config gcc
 
 sudo apt-get install libncurses5-dev
 
-# cmake 3.16.3
-sudo apt install cmake
+# cmake 3.16.3 and Make
+sudo apt install cmake make autoconf git byacc
+
+# node.js
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt install -y nodejs
+
+# Yarn
+WORKDIR /home/${user}/software
+RUN wget https://github.com/yarnpkg/yarn/releases/download/v1.7.0/yarn_1.7.0_all.deb
+RUN dpkg -i yarn_1.7.0_all.deb
 ---------------------------------
 
 COPY aptsource20 /etc/apt/sources.list
