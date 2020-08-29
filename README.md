@@ -31,11 +31,17 @@ src/github.com/cockroachdb/cockroach/c-deps/rocksdb/CMakeLists.txt +251
 #### NOTE: make test lint for v20.1.0
 ```
 go version : 1.13.5
+nodejs version : 
+    ubuntu20 : curl -sL https://deb.nodesource.com/setup_12.x | bash -
+    
 ```
 
 #### NOTE: make test lint for v19.1.0
 ```
 go version : 1.12.17
+nodejs version : 
+    ubuntu20 : curl -sL https://deb.nodesource.com/setup_10.x | bash -
+    centos7 : curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
 ```
 
 ### 2. Build from Source
