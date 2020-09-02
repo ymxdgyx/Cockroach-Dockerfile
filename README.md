@@ -38,7 +38,7 @@ nodejs version :
 
 #### NOTE: make test lint for v19.1.0
 ```
-go version : 1.12.17
+go version : 1.14.7 ~~1.12.17~~
 nodejs version : 
     ubuntu20 : curl -sL https://deb.nodesource.com/setup_10.x | bash -
     centos7 : curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
