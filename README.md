@@ -62,7 +62,7 @@ docker build -t cockroach-centos-docker:0.1 -t cockroach-centos-docker:latest --
 ### 5. DockerHub link
 https://hub.docker.com/r/ymxdgyx/cockroach-centos-docker
 
-### 6. VScode debug cockroachDB
+### 6. VScode and Goland debug cockroachDB
 ```
 launch.json:
 {
@@ -82,4 +82,8 @@ launch.json:
         }
     ]
 }
+
+Goland:  
+Files: pkg/cmd/cockroachdb/main.go
+Program arguments: "start" "--insecure" "--host=localhost"
 ```
