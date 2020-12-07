@@ -28,9 +28,9 @@ src/github.com/cockroachdb/cockroach/c-deps/libroach/CMakeLists.txt +84 +172
 src/github.com/cockroachdb/cockroach/c-deps/rocksdb/CMakeLists.txt +251
 ```
 
-#### NOTE: make test lint for v20.1.0
+#### NOTE: make test lint for v20.2.0
 ```
-go version : 1.13.5
+go version : 1.15.6
 nodejs version : 
     ubuntu20 : curl -sL https://deb.nodesource.com/setup_12.x | bash -
     
