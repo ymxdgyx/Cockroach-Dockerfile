@@ -54,7 +54,7 @@ RUN cp /usr/local/go/bin/* /usr/bin
 RUN tar -zxvf cmake-${cmakever}.tar.gz
 WORKDIR /home/${user}/software/cmake-${cmakever}
 RUN ./bootstrap --prefix=/usr
-RUN gmake
+RUN gmake -j8
 RUN sudo gmake install
 
 # access github 
