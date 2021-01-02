@@ -8,10 +8,11 @@ ARG cmakebigver=3.11
 ARG cmakever=3.11.2
 ARG tmuxver=3.1b
 
-RUN yum install wget -y
-RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${osver}.repo && yum makecache
-
-RUN yum install -y sudo net-tools git which dstat vim openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static
+RUN yum install wget -y && \
+    wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-${osver}.repo && \
+    yum makecache && \
+    yum install -y sudo net-tools git which dstat vim openssh-server gcc gcc-c++ make autoconf bison ncurses-devel ncurses-static && \
+    yum clean all
 
 # Generate ssh host keys
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
@@ -62,10 +63,10 @@ RUN sudo gmake install
 
 # node.js
 #RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
-RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - && yum install -y nodejs
+RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - && yum install -y nodejs && yum clean all
 
 # Yarn
-RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && yum -y install yarn
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo && yum -y install yarn && yum clean all
 
 # PRIVATE
 WORKDIR /home/${user}/software
@@ -77,7 +78,7 @@ RUN tar xzvf libevent-2.1.8-stable.tar.gz
 RUN cd libevent-2.1.8-stable && ./configure && make -j8 && make install
 
 # 1.2 Install ncurses and automake
-RUN yum install ncurses automake -y
+RUN yum install ncurses automake -y && yum clean all
 
 # 1.3 Install tmux
 #RUN git clone https://github.com/tmux/tmux.git
