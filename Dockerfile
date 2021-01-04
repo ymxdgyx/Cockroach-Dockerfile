@@ -51,9 +51,9 @@ RUN wget https://dl.google.com/go/go${gover}.linux-amd64.tar.gz && \
 
 # install cmake
 RUN wget https://cmake.org/files/v${cmakebigver}/cmake-${cmakever}-Linux-x86_64.tar.gz && \
-    tar -C /tmp/ -zxvf cmake-${cmakever}-Linux-x86_64.tar.gz && \
-    cp /tmp/cmake-${cmakever}-Linux-x86_64/bin/* /usr/bin && \
-    rm -rf cmake-${cmakever}-Linux-x86_64.tar.gz cmake-${cmakever}-Linux-x86_64/
+    tar -C /usr/local/ -zxvf cmake-${cmakever}-Linux-x86_64.tar.gz && \
+    ln -s /usr/local/cmake-${cmakever}-Linux-x86_64/bin/* /usr/bin/ && \
+    rm -rf cmake-${cmakever}-Linux-x86_64.tar.gz
 
 # node.js
 #RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
