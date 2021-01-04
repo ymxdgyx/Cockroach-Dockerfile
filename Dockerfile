@@ -15,9 +15,9 @@ RUN yum install wget -y && \
     yum clean all
 
 # Generate ssh host keys
-RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
+RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa && \
+    ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa && \
+    ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
 # change timezone to Asia/Shanghai
 RUN mv /etc/localtime /etc/localtime.bak && \
@@ -35,28 +35,25 @@ RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa && \
     cp -a ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys && \
     echo "NoHostAuthenticationForLocalhost=yes" >>~/.ssh/config
 
-# copy cmake-3.11.2.tar.gz 
-# copy go1.11.2.linux-amd64.tar.gz
-RUN mkdir -p /home/${user}/software
-WORKDIR /home/${user}/software
+WORKDIR /tmp
 #COPY --chown=${user}:${user} software/* ./
-RUN wget https://dl.google.com/go/go${gover}.linux-amd64.tar.gz && \
-    wget https://cmake.org/files/v${cmakebigver}/cmake-${cmakever}-Linux-x86_64.tar.gz
 
 USER root
 
 # install go and  Set go GOPROXY env
-RUN tar -C /tmp -zxvf go${gover}.linux-amd64.tar.gz && \
+RUN wget https://dl.google.com/go/go${gover}.linux-amd64.tar.gz && \
+    tar -C /usr/local/ -zxvf go${gover}.linux-amd64.tar.gz && \
     echo -e "export GOROOT=/usr/local/go\nexport PATH=$PATH:$GOROOT/bin" >> /etc/profile && \
     echo "export GOPATH=/home/${user}/cockroachdb" >> /home/${user}/.bashrc && \
-    cp /tmp/go/bin/* /usr/bin && \
-    rm -rf /tmp/* && \
+    cp /usr/local/go/bin/* /usr/bin && \
+    rm -rf go${gover}.linux-amd64.tar.gz && \
     go env -w GOPROXY=https://goproxy.cn,direct
 
 # install cmake
-RUN tar -C /tmp -zxvf cmake-${cmakever}-Linux-x86_64.tar.gz && \
+RUN wget https://cmake.org/files/v${cmakebigver}/cmake-${cmakever}-Linux-x86_64.tar.gz && \
+    tar -C /tmp/ -zxvf cmake-${cmakever}-Linux-x86_64.tar.gz && \
     cp /tmp/cmake-${cmakever}-Linux-x86_64/bin/* /usr/bin && \
-    rm -rf /tmp/*
+    rm -rf cmake-${cmakever}-Linux-x86_64.tar.gz cmake-${cmakever}-Linux-x86_64/
 
 # node.js
 #RUN curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
@@ -68,16 +65,17 @@ RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum
     yum -y install yarn && yum clean all
 
 # PRIVATE
-WORKDIR /home/${user}/software
 
 # 1 Install tmux
 # 1.1 Install libevent 2.1.8
 RUN wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz && \
-    tar xzvf libevent-2.1.8-stable.tar.gz && \
+    tar -xzvf libevent-2.1.8-stable.tar.gz && \
     cd libevent-2.1.8-stable && \
     ./configure && \
     make -j8 && \
-    make install
+    make install && \
+    cd ../ && \
+    rm -rf libevent-2.1.8-stable.tar.gz libevent-2.1.8-stable/
 
 # 1.2 Install ncurses and automake
 RUN yum install ncurses automake -y && \
@@ -91,10 +89,11 @@ RUN wget https://github.com/tmux/tmux/releases/download/${tmuxver}/tmux-${tmuxve
     ./configure && \
     make -j8 && \
     make install && \
-    cd tmux-${tmuxver} && \
     cp tmux /usr/bin/tmux -f && \
     cp tmux /usr/local/bin/tmux -f && \
-    cp /usr/local/lib/libevent-2.1.so.6 /lib64/libevent-2.1.so.6
+    cp /usr/local/lib/libevent-2.1.so.6 /lib64/libevent-2.1.so.6 && \
+    cd .. && \
+    rm -rf tmux-${tmuxver}.tar.gz tmux-${tmuxver}/
 
 # PRIVATE
 
