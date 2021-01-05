@@ -1,6 +1,8 @@
 ARG osver=20.04
 FROM ubuntu:${osver}
 
+ARG nodejsver=10
+
 COPY aptsource20 /etc/apt/sources.list
 
 RUN export DEBIAN_FRONTEND=noninteractive && apt update && \
@@ -14,8 +16,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt update && \
 
 RUN export DEBIAN_FRONTEND=noninteractive && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 
-# node.js
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+# node.js 18.04-8 20.04-10
+RUN curl -sL https://deb.nodesource.com/setup_${nodejsver}.x | bash - && \
     apt install -y nodejs && \
     apt clean
 
