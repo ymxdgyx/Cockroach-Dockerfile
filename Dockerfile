@@ -95,6 +95,9 @@ RUN wget https://github.com/tmux/tmux/releases/download/${tmuxver}/tmux-${tmuxve
     cd .. && \
     rm -rf tmux-${tmuxver}.tar.gz tmux-${tmuxver}/
 
+# Tmux Resurrect
+RUN mkdir ~/.tmux && cd ~/.tmux && git clone https://github.com/tmux-plugins/tmux-resurrect.git && \
+    echo "run-shell ~/.tmux/tmux-resurrect/resurrect.tmux" >> ~/.tmux.conf
 # PRIVATE
 
 WORKDIR /home/${user}
