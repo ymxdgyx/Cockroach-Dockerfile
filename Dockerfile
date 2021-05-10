@@ -3,7 +3,7 @@ FROM centos:${osver}
 
 ARG osver
 ARG user=${user:-crdb}
-ARG gover=1.14.2
+ARG gover=1.15.12
 ARG cmakebigver=3.11
 ARG cmakever=3.11.2
 ARG tmuxver=3.1b
