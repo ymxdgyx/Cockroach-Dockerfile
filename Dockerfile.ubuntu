@@ -37,7 +37,7 @@ RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa && \
     echo "NoHostAuthenticationForLocalhost=yes" >>~/.ssh/config
 
 # install go
-RUN wget https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz && \
+RUN wget https://dl.google.com/go/go1.15.12.linux-amd64.tar.gz && \
     tar -C /usr/local -zxvf go1.14.2.linux-amd64.tar.gz && \
     echo "export GOROOT=/usr/local/go" >> /etc/profile && \
     echo "export PATH=$PATH:$GOROOT/bin" >> /etc/profile && \
